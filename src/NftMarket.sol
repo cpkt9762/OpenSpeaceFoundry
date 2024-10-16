@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract NFTMarket is IERC721Receiver{
+contract NFTMarket is IERC721Receiver {
     struct Listing {
         address seller;
         uint256 price; // 价格
@@ -15,8 +15,8 @@ contract NFTMarket is IERC721Receiver{
 
     // NFT ID到挂牌信息的映射
     mapping(uint256 => Listing) public listings;
-    
-    IERC721 public nftContract;  // NFT合约的引用
+
+    IERC721 public nftContract; // NFT合约的引用
     IERC20 public tokenContract; // ERC20代币合约的引用
 
     constructor(address _nftContract, address _tokenContract) {
@@ -73,19 +73,14 @@ contract NFTMarket is IERC721Receiver{
 
         // 移除挂牌
         delete listings[nftId];
-    } 
-    
+    }
+
     // 实现ERC20 扩展 Token 所要求的接收者方法 tokensReceived  ，在 tokensReceived 中实现NFT 购买功能
-     function tokensReceived(
-        address from,
-        address to,
-        uint256 amount,
-        bytes calldata userData
-    ) external {
-        require(msg.sender == address(tokenContract), "Only the ERC20 token contract can call this"); 
+    function tokensReceived(address from, address, uint256 amount, bytes calldata userData) external {
+        require(msg.sender == address(tokenContract), "Only the ERC20 token contract can call this");
         uint256 nftId = abi.decode(userData, (uint256));
         Listing memory listing = listings[nftId];
-        
+
         require(listing.price > 0, "NFT is not listed for sale");
         require(amount == listing.price, "Incorrect payment amount");
 
@@ -98,17 +93,16 @@ contract NFTMarket is IERC721Receiver{
         // Remove the listing
         delete listings[nftId];
 
-        emit NFTBought( nftId,from, amount);
+        emit NFTBought(nftId, from, amount);
     }
 
-   // Required for receiving NFTs
-    function onERC721Received(
-        address operator,
-        address from,
-        uint256 tokenId,
-        bytes calldata data
-    ) external pure override returns (bytes4) {
+    // Required for receiving NFTs
+    function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
+        external
+        pure
+        override
+        returns (bytes4)
+    {
         return IERC721Receiver.onERC721Received.selector;
     }
-
-} 
+}

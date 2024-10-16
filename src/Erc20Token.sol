@@ -3,22 +3,22 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract MyERC20Token is IERC20  {
-    string public name= "BaseERC20"; 
-    string public symbol= "BERC20"; 
-    uint8 public decimals= 18; 
+contract MyERC20Token is IERC20 {
+    string public name = "BaseERC20";
+    string public symbol = "BERC20";
+    uint8 public decimals = 18;
 
-    uint256 public totalSupply= 100000000 * 10 ** decimals; 
+    uint256 public totalSupply = 100000000 * 10 ** decimals;
 
-    mapping (address => uint256) balances; 
+    mapping(address => uint256) balances;
 
-    mapping (address => mapping (address => uint256)) allowances; 
+    mapping(address => mapping(address => uint256)) allowances;
 
     // event Transfer(address indexed from, address indexed to, uint256 value);
     // event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    constructor() { 
-        balances[msg.sender] = totalSupply;  
+    constructor() {
+        balances[msg.sender] = totalSupply;
     }
 
     function balanceOf(address _owner) public view returns (uint256 balance) {
@@ -29,12 +29,12 @@ contract MyERC20Token is IERC20  {
     function transfer(address _to, uint256 _value) public returns (bool success) {
         // write your code here
         require(balances[msg.sender] >= _value, "ERC20: transfer amount exceeds balance");
-        
+
         balances[msg.sender] -= _value;
         balances[_to] += _value;
 
-        emit Transfer(msg.sender, _to, _value);  
-        return true;   
+        emit Transfer(msg.sender, _to, _value);
+        return true;
     }
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
@@ -45,20 +45,19 @@ contract MyERC20Token is IERC20  {
         balances[_from] -= _value;
         balances[_to] += _value;
         allowances[_from][msg.sender] -= _value;
-        emit Transfer(_from, _to, _value); 
-        return true; 
+        emit Transfer(_from, _to, _value);
+        return true;
     }
 
     function approve(address _spender, uint256 _value) public returns (bool success) {
         // write your code here
-        allowances[msg.sender][_spender] = _value; 
-        emit Approval(msg.sender, _spender, _value); 
-        return true; 
+        allowances[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
+        return true;
     }
 
-    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {   
-        // write your code here     
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
+        // write your code here
         return allowances[_owner][_spender];
-
     }
 }
