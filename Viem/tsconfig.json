@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es6", // 其他目标版本
+      "module": "commonjs", // 或其他模块类型
+      "strict": true, // 启用严格模式
+      "esModuleInterop": true, // 允许默认导入非 ES 模块
+      "resolveJsonModule": true, // 允许导入 JSON 模块
+      "skipLibCheck": true, // 跳过库检查以避免类型错误
+      "outDir": "./dist" // 指定输出目录
+    },
+    "include": [
+      "src/**/*" // 包含的源代码
+    ],
+    "exclude": [
+      "node_modules", // 排除的目录
+      "dist" // 排除输出目录
+    ]
+  }
+  
