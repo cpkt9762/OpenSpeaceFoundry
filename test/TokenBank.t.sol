@@ -28,7 +28,6 @@ contract TokenBankTest is Test {
     //测试depositETH
     function test_depositETH() public {
         uint256 depositAmount = 1 ether;
-
         //监听Deposit事件
         vm.expectEmit(address(tokenBank));
         emit Deposit(address(this), depositAmount);

@@ -2,7 +2,9 @@
 src = "src"
 out = "out"
 libs = ["lib"]
-solc = "0.8.17"
+solc = "0.8.20"
 
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+[profile.anvil]
+fork_url = "https://mainnet.infura.io/v3/52edd380729e46e3a485e8e5e754ea1e" # 替换为你自己的节
