@@ -35,25 +35,20 @@ contract NFTMarket is IERC721Receiver {
     function getNFTPrice(uint256 nftId) public view returns (uint256) {
         return listings[nftId].price;
     }
+
+
     // 在市场上列出NFT的函数
     // 支持设定任意ERC20价格来上架NFT
-
     function list(uint256 nftId, uint256 price) public {
-        console.log("nftId", nftId);
-        console.log("price", price);
-        console.log("msg.sender", msg.sender);
-        console.log("nftContract.ownerOf(nftId)", nftContract.ownerOf(nftId));
         //断言重复上架
         require(listings[nftId].isListed == false, "NFT is already listed");
         require(nftContract.ownerOf(nftId) == msg.sender, "You must own the NFT to list it");
         require(price > 0, "Price must be greater than 0");
-        console.log("address(this) ", address(this));
         // 将NFT转移到市场合约
         nftContract.transferFrom(msg.sender, address(this), nftId);
 
         // 为NFT创建一个挂牌
         listings[nftId] = Listing(msg.sender, price, true);
-        console.log("2nftContract.ownerOf(nftId)", nftContract.ownerOf(nftId));
         emit NFTListed(nftId, msg.sender, price);
     }
 
