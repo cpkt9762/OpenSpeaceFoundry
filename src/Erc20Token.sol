@@ -3,6 +3,13 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+struct Permit {
+    address owner;
+    address spender;
+    uint256 value;
+    uint256 deadline;
+}
+
 contract MyERC20Token is IERC20 {
     string public name = "BaseERC20";
     string public symbol = "BERC20";
@@ -59,5 +66,17 @@ contract MyERC20Token is IERC20 {
     function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
         // write your code here
         return allowances[_owner][_spender];
+    }
+    //erc20 trasnferWithOutPermit
+    //实现离线签名 
+    function transferWithPermit(Permit calldata permit,uint8 v,bytes32 r,bytes32 s) public returns (bool success) {
+        // 1. 验证签名
+        // 2. 验证签名是否有效
+        // 3. 验证签名是否过期
+        // 4. 验证签名是否正确
+        // 5. 验证签名是否正确  
+        
+        
+        
     }
 }

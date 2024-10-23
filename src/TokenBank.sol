@@ -1,22 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-
-import "./TokenHook.sol";
+ 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
+import "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Permit.sol";  
 contract TokenBank {
     // ERC20 Token 合约地址
-    ERC20WithCallback public token;
+    IERC20  public token;
 
     event Deposit(address indexed user, uint256 amount);
-    // 每个用户的存款记录
+    event Withdraw(address indexed user, uint256 amount);
 
+    // 每个用户的存款记录 
     mapping(address => uint256) public balances;
 
     // 构造函数，初始化 Token 合约地址
     constructor(address _tokenAddress) {
-        token = ERC20WithCallback(_tokenAddress);
+        token = IERC20(_tokenAddress);
     }
 
     // 存款函数，用户将 Token 存入 TokenBank
@@ -28,6 +28,9 @@ contract TokenBank {
 
         // 更新用户的存款记录
         balances[msg.sender] += amount;
+
+        // call deposit event
+        emit Deposit(msg.sender, amount);
     }
 
     // 存款函数，用户将 ETH 存入 TokenBank
@@ -47,11 +50,33 @@ contract TokenBank {
 
         // 将 Token 发送回用户
         require(token.transfer(msg.sender, amount), "Token transfer failed");
+
+        // call withdraw event
+        emit Withdraw(msg.sender, amount);
     }
 
     // 查询用户的存款余额
     function getBalance(address user) public view returns (uint256) {
         return balances[user];
+    }
+
+    // Use the permit function to authorize deposits
+    function permitDeposit( 
+        uint256 _amount,
+        uint256 _deadline,
+        uint8 _v,
+        bytes32 _r,
+        bytes32 _s
+    ) external { 
+        // Use the permit function to authorize the deposit
+        ERC20Permit(address(token)).permit(msg.sender, address(this), _amount, _deadline, _v, _r, _s);
+        // Execute the transfer operation
+        token.transferFrom(msg.sender, address(this), _amount);
+        // Update the deposit balance
+        balances[msg.sender] += _amount;
+
+        // call deposit event
+        emit Deposit(msg.sender, _amount);
     }
 }
 
@@ -68,4 +93,6 @@ contract TokenBankV2 is TokenBank {
         require(msg.sender == address(token), "Only callable by token contract");
         balances[sender] += amount;
     }
+
+  
 }

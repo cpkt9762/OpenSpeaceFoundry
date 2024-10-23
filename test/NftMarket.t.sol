@@ -13,7 +13,7 @@ import "../src/Erc20Token.sol";
  */
 
 contract NftMarketTest is Test {
-    NFTMarket nftMarket;
+    NftMarket nftMarket;
     MyERC20Token token;
     MyERC721NFT nft;
     uint256 nftId;
@@ -35,7 +35,7 @@ contract NftMarketTest is Test {
 
     //上架NFT：测试上架成功和失败情况，要求断言错误信息和上架事件。
     function test_list() public {
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         // 测试上架成功
         vm.expectEmit(true, true, false, true);
@@ -52,7 +52,7 @@ contract NftMarketTest is Test {
     //购买NFT：测试购买成功、自己购买自己的NFT、NFT被重复购买、支付Token过多或者过少情况，要求断言错误信息和购买事件。
     //1 测试购买成功
     function test_buy1() public {
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         // 上架 NFT
         nftMarket.list(nftId, 100);
@@ -68,7 +68,7 @@ contract NftMarketTest is Test {
 
     //2 自己购买自己的NFT
     function test_buy2() public {
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         // 上架 NFT
         nftMarket.list(nftId, 100);
@@ -78,7 +78,7 @@ contract NftMarketTest is Test {
 
     //3 NFT被重复购买
     function test_buy3() public {
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         vm.prank(user);
         token.approve(address(nftMarket), 100);
@@ -95,7 +95,7 @@ contract NftMarketTest is Test {
 
     //4 支付Token过多
     function test_buy4() public {
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         vm.prank(user);
         token.approve(address(nftMarket), 100);
@@ -109,7 +109,7 @@ contract NftMarketTest is Test {
 
     //5 支付Token不足
     function test_buy5() public {
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         vm.prank(user);
         token.approve(address(nftMarket), 100);
@@ -129,7 +129,7 @@ contract NftMarketTest is Test {
         price = bound(price, 0.01 ether, 10000 ether);
         vm.assume(price > 0.01 ether && price < 10000 ether);
 
-        nftMarket = new NFTMarket(address(nft), address(token));
+        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
         nftMarket.list(nftId, price);
 

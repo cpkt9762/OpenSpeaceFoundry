@@ -41,8 +41,8 @@ function displayAccountInfo(account) {
     }
 } 
  
-// 6. Display the connected wallet's address
-async function handler2(newState) { 
+// 6.  Subscribe handler
+async function handler(newState) { 
     if (newState.data.event === 'CONNECT_SUCCESS') { 
         const account =  await modal.getAddress() 
         displayAccountInfo(account)
@@ -50,4 +50,4 @@ async function handler2(newState) {
  }
   
  // 7. Subscribe to events
- EventsController.subscribe(handler2)
+ EventsController.subscribe(handler)

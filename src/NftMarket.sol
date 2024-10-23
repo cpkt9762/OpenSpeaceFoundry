@@ -5,24 +5,33 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Permit.sol";
+import "lib/openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol";
+import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+import "lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol";
+import "lib/openzeppelin-contracts/contracts/utils/cryptography/EIP712.sol";
 import "forge-std/console.sol";
+import "./MyERC721NFT.sol";
+import "./MyToken.sol"; 
 
-contract NFTMarket is IERC721Receiver {
+contract NftMarket is Ownable, IERC721Receiver, EIP712 {
     struct Listing {
         address seller;
         uint256 price; // 价格
         bool isListed; // 是否挂牌
     }
 
+    MyERC721NFT public nftContract;
+    MyToken public tokenContract;
+
     // NFT ID到挂牌信息的映射
-    mapping(uint256 => Listing) public listings;
+    mapping(uint256 => Listing) public listings; 
+    mapping(address => bool) public whitelist;
 
-    IERC721 public nftContract; // NFT合约的引用
-    IERC20 public tokenContract; // ERC20代币合约的引用
-
-    constructor(address _nftContract, address _tokenContract) {
-        nftContract = IERC721(_nftContract);
-        tokenContract = IERC20(_tokenContract);
+   
+    constructor(address _nft, address _token) EIP712("NftMarket", "1") Ownable(msg.sender) {
+        nftContract = MyERC721NFT(_nft);
+        tokenContract = MyToken(_token);
     }
 
     // NFT被挂牌时触发的事件
@@ -119,5 +128,39 @@ contract NFTMarket is IERC721Receiver {
         returns (bytes4)
     {
         return IERC721Receiver.onERC721Received.selector;
+    } 
+
+
+    // 使用 permit 函数进行购买
+    function permitBuy( 
+        uint256 tokenId,
+        uint256 amount,
+        uint256 deadline,
+        uint256 nonce,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external {
+
+        bytes32 hash = keccak256(abi.encodePacked(msg.sender, tokenId, amount, deadline,nonce)); 
+        address signer = ecrecover(hash, v, r, s); 
+        require(signer == msg.sender, "Invalid signature"); 
+        require(whitelist[signer], "Not a whitelisted address"); 
+        
+        // 扣除代币进行购买
+        tokenContract.transferFrom(msg.sender, address(this), amount);
+        nftContract.transferFrom(address(this), msg.sender, tokenId);
+ 
+    } 
+
+    // 添加到白名单
+    function addToWhitelist(address user) external {
+        console.log("addToWhitelist: %s", user); 
+        whitelist[user] = true;
+    }
+    // 从白名单中移除
+    function removeFromWhitelist(address user) external {
+        console.log("removeFromWhitelist: %s", user);
+        whitelist[user] = false;
     }
 }
