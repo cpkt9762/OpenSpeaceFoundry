@@ -4,10 +4,22 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Permit.sol";  
+
+ interface IPermit2 {
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external;
+}
+
 contract TokenBank {
     // ERC20 Token 合约地址
-    IERC20  public token;
-
+    IERC20  public token; 
     event Deposit(address indexed user, uint256 amount);
     event Withdraw(address indexed user, uint256 amount);
 
@@ -17,6 +29,7 @@ contract TokenBank {
     // 构造函数，初始化 Token 合约地址
     constructor(address _tokenAddress) {
         token = IERC20(_tokenAddress);
+       
     }
 
     // 存款函数，用户将 Token 存入 TokenBank
@@ -68,6 +81,7 @@ contract TokenBank {
         bytes32 _r,
         bytes32 _s
     ) external { 
+        require(_deadline > block.timestamp, "Deadline must be in the future");
         // Use the permit function to authorize the deposit
         ERC20Permit(address(token)).permit(msg.sender, address(this), _amount, _deadline, _v, _r, _s);
         // Execute the transfer operation
@@ -78,6 +92,8 @@ contract TokenBank {
         // call deposit event
         emit Deposit(msg.sender, _amount);
     }
+
+   
 }
 
 /*继承 TokenBank 编写 TokenBankV2，
@@ -85,7 +101,10 @@ contract TokenBank {
 用户可以直接调用 transferWithCallback 将 扩展的 ERC20 Token 存入到 TokenBankV2 中。
 */
 contract TokenBankV2 is TokenBank {
-    constructor(address _tokenAddress) TokenBank(_tokenAddress) {}
+    address public permit2Contract;
+    constructor(address _tokenAddress) TokenBank(_tokenAddress) {
+        permit2Contract = _tokenAddress;
+    }
 
     //TokenBankV2 需要实现 tokensReceived 来实现存款记录工作
     function tokensReceived(address sender, uint256 amount) public {
@@ -94,5 +113,24 @@ contract TokenBankV2 is TokenBank {
         balances[sender] += amount;
     }
 
-  
+    function depositWithPermit2(
+        uint256 amount,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external {
+        require(permit2Contract != address(0), "Permit2 contract not set");
+        require(amount > 0, "Amount must be greater than 0");
+        require(deadline > block.timestamp, "Deadline must be in the future");
+
+        // 使用 permit2 进行授权
+        IPermit2(permit2Contract).permit(msg.sender, address(this), amount, deadline, v, r, s);
+        
+        // 转账 token 到合约
+        require(token.transferFrom(msg.sender, address(this), amount), "Transfer failed");
+        
+        // 更新存款余额
+        balances[msg.sender] += amount;
+    }
 }

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
-import "../src/MyToken.sol";
+import "../src/MyPermitToken.sol";
 import "../src/TokenBank.sol";
 import "../src/MyERC721NFT.sol";
 import "../src/NftMarket.sol";
@@ -10,7 +10,7 @@ import {console} from "forge-std/console.sol";
 
 
 contract TokenBankTest is Test {
-    MyToken public myToken;
+    MyPermitToken public myToken;
     TokenBank public tokenBank;
     MyERC721NFT public myNFT;
     NftMarket public nftMarket;
@@ -26,7 +26,7 @@ contract TokenBankTest is Test {
         // Generate user1's address
         user1 = address(0x1);
         // Deploy MyToken contract
-        myToken = new MyToken();
+        myToken = new MyPermitToken();
         
         // Deploy TokenBank contract
         tokenBank = new TokenBank(address(myToken));
@@ -103,7 +103,7 @@ contract TokenBankTest is Test {
         deal(address(myToken), owner, amount * price);   
         
         // Add owner to the whitelist
-        nftMarket.addToWhitelist(owner);
+       // nftMarket.addToWhitelist(owner);
  
       
         // Owner authorizes tokens

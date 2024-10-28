@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
-contract MyToken is ERC20, ERC20Permit, Ownable  {
-    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken")  Ownable(msg.sender) {
+contract MyPermitToken is ERC20, ERC20Permit, Ownable  {
+    constructor() ERC20("MyPermitToken", "MPT") ERC20Permit("MyPermitToken")  Ownable(msg.sender) {
         _mint(msg.sender, 1000000 * 10 ** decimals()); // 初始化铸造 100 万代币
     }
     function mint(address to, uint256 amount) external onlyOwner {

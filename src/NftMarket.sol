@@ -12,7 +12,7 @@ import "lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol";
 import "lib/openzeppelin-contracts/contracts/utils/cryptography/EIP712.sol";
 import "forge-std/console.sol";
 import "./MyERC721NFT.sol";
-import "./MyToken.sol"; 
+import "./MyPermitToken.sol"; 
 
 contract NftMarket is Ownable, IERC721Receiver, EIP712 {
     struct Listing {
@@ -22,7 +22,7 @@ contract NftMarket is Ownable, IERC721Receiver, EIP712 {
     }
 
     MyERC721NFT public nftContract;
-    MyToken public tokenContract;
+    MyPermitToken public tokenContract;
 
     // NFT ID到挂牌信息的映射
     mapping(uint256 => Listing) public listings; 
@@ -31,7 +31,7 @@ contract NftMarket is Ownable, IERC721Receiver, EIP712 {
    
     constructor(address _nft, address _token) EIP712("NftMarket", "1") Ownable(msg.sender) {
         nftContract = MyERC721NFT(_nft);
-        tokenContract = MyToken(_token);
+        tokenContract = MyPermitToken(_token);
     }
 
     // NFT被挂牌时触发的事件
@@ -144,21 +144,19 @@ contract NftMarket is Ownable, IERC721Receiver, EIP712 {
 
         bytes32 hash = keccak256(abi.encodePacked(msg.sender, tokenId, amount, deadline,nonce)); 
         address signer = ecrecover(hash, v, r, s); 
-        require(signer == msg.sender, "Invalid signature"); 
-        require(whitelist[signer], "Not a whitelisted address"); 
-        
+        require(signer == msg.sender, "Invalid signature");  
         // 扣除代币进行购买
         tokenContract.transferFrom(msg.sender, address(this), amount);
         nftContract.transferFrom(address(this), msg.sender, tokenId);
  
     } 
 
-    // 添加到白名单
-    function addToWhitelist(address user) external { 
-        whitelist[user] = true;
-    }
-    // 从白名单中移除
-    function removeFromWhitelist(address user) external { 
-        whitelist[user] = false;
-    }
+    // // 添加到白名单
+    // function addToWhitelist(address user) external { 
+    //     whitelist[user] = true;
+    // }
+    // // 从白名单中移除
+    // function removeFromWhitelist(address user) external { 
+    //     whitelist[user] = false;
+    // }
 }
