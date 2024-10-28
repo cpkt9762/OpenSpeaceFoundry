@@ -154,13 +154,11 @@ contract NftMarket is Ownable, IERC721Receiver, EIP712 {
     } 
 
     // 添加到白名单
-    function addToWhitelist(address user) external {
-        console.log("addToWhitelist: %s", user); 
+    function addToWhitelist(address user) external { 
         whitelist[user] = true;
     }
     // 从白名单中移除
-    function removeFromWhitelist(address user) external {
-        console.log("removeFromWhitelist: %s", user);
+    function removeFromWhitelist(address user) external { 
         whitelist[user] = false;
     }
 }
