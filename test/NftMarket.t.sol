@@ -5,20 +5,21 @@ import {Test, console} from "forge-std/Test.sol";
 import "../src/NftMarket.sol";
 import "../src/MyERC721NFT.sol";
 import "../src/Erc20Token.sol";
-/*要求测试内容： 
-上架NFT：测试上架成功和失败情况，要求断言错误信息和上架事件。
-购买NFT：测试购买成功、自己购买自己的NFT、NFT被重复购买、支付Token过多或者过少情况，要求断言错误信息和购买事件。
-模糊测试：测试随机使用 0.01-10000 Token价格上架NFT，并随机使用任意Address购买NFT
-「可选」不可变测试：测试无论如何买卖，NFTMarket合约中都不可能有 Token 持仓
- */
-
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol"; 
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol"; 
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";  
+ 
+ 
 contract NftMarketTest is Test {
-    NftMarket nftMarket;
-    MyERC20Token token;
+    NftMarket nftMarket; 
     MyERC721NFT nft;
     uint256 nftId;
-    address user = address(0x7D85Cf6dd28C89095E540e31E3Bf90e965073Ea4);
-
+    address user;
+    uint256 userPk;
+    address user2;
+    uint256 userPk2;
     // NFT被挂牌时触发的事件
     event NFTListed(uint256 indexed nftId, address indexed seller, uint256 price);
 
@@ -26,129 +27,135 @@ contract NftMarketTest is Test {
     event NFTBought(uint256 indexed nftId, address indexed buyer, uint256 price);
 
     function setUp() public {
-        token = new MyERC20Token();
+        (user,userPk) = makeAddrAndKey("alice");
+        (user2,userPk2) = makeAddrAndKey("bob");
+       
         nft = new MyERC721NFT();
-        nftId = nft.mintNFT(
-            "https://sapphire-familiar-toucan-190.mypinata.cloud/ipfs/QmWoSUtP6FLVTqfAcBd7RVjNwfVdGAtaUqYDTEsK3LGgyi"
-        );
-    }
-
-    //上架NFT：测试上架成功和失败情况，要求断言错误信息和上架事件。
-    function test_list() public {
-        nftMarket = new NftMarket(address(nft), address(token));
-        nft.approve(address(nftMarket), nftId);
-        // 测试上架成功
-        vm.expectEmit(true, true, false, true);
-        emit NFTListed(nftId, address(this), 100); // 假设价格为 100 Token
-        nftMarket.list(nftId, 100);
-        (,, bool isListed) = nftMarket.listings(nftId);
-        assertEq(isListed, true, "NFT is not listed");
-
-        // 测试重复上架的失败
-        vm.expectRevert("NFT is already listed");
-        nftMarket.list(nftId, 100);
-    }
-
-    //购买NFT：测试购买成功、自己购买自己的NFT、NFT被重复购买、支付Token过多或者过少情况，要求断言错误信息和购买事件。
-    //1 测试购买成功
-    function test_buy1() public {
-        nftMarket = new NftMarket(address(nft), address(token));
-        nft.approve(address(nftMarket), nftId);
-        // 上架 NFT
-        nftMarket.list(nftId, 100);
-        deal(address(token), user, 1000000000);
         vm.prank(user);
-        token.approve(address(nftMarket), 100);
-        vm.expectEmit(true, true, false, true);
-        emit NFTBought(nftId, user, 100);
-        nftMarket.buyNFT(user, 100, nftId);
-        assertEq(nft.ownerOf(nftId), user, "NFT should belong to user2");
-        assertEq(token.balanceOf(user), 999999900, "User2 should have 999999900 tokens");
-    }
-
-    //2 自己购买自己的NFT
-    function test_buy2() public {
-        nftMarket = new NftMarket(address(nft), address(token));
-        nft.approve(address(nftMarket), nftId);
-        // 上架 NFT
-        nftMarket.list(nftId, 100);
-        vm.expectRevert("You cannot buy your own NFT");
-        nftMarket.buyNFT(address(this), 100, nftId);
-    }
-
-    //3 NFT被重复购买
-    function test_buy3() public {
-        nftMarket = new NftMarket(address(nft), address(token));
-        nft.approve(address(nftMarket), nftId);
+        nftId = nft.mintNFT(  "https://sapphire-familiar-toucan-190.mypinata.cloud"  );
         vm.prank(user);
-        token.approve(address(nftMarket), 100);
+        nftMarket = new NftMarket(address(user)); 
 
-        // 上架 NFT
-        nftMarket.list(nftId, 100);
-        deal(address(token), user, 100000000000);
-
-        nftMarket.buyNFT(user, 100, nftId);
-
-        vm.expectRevert("NFT not listed");
-        nftMarket.buyNFT(user, 100, nftId);
-    }
-
-    //4 支付Token过多
-    function test_buy4() public {
-        nftMarket = new NftMarket(address(nft), address(token));
-        nft.approve(address(nftMarket), nftId);
         vm.prank(user);
-        token.approve(address(nftMarket), 100);
-        // 上架 NFT
-        nftMarket.list(nftId, 100);
-        deal(address(token), user, 100000000000);
-
-        vm.expectRevert("Insufficient token amount to buy NFT");
-        nftMarket.buyNFT(user, 100000000000, nftId);
-    }
-
-    //5 支付Token不足
-    function test_buy5() public {
-        nftMarket = new NftMarket(address(nft), address(token));
         nft.approve(address(nftMarket), nftId);
+    }
+   
+    //1 测试通过token上架和购买 
+    function test_list_and_buy1() public {
+        
+        MyERC20Token  token = new MyERC20Token(); 
+        uint256 price = 100;
+        uint256 deadline = block.timestamp + 1 days; 
+        ListOrder memory order = ListOrder({
+            nft: address(nft),
+            tokenId: nftId,
+            payToken: address(token),
+            price: price,
+            deadline: deadline
+        });
+        bytes32 domainSeparator = nftMarket.buildDomainSeparator();
+        bytes32 orderId = nftMarket.orderHash(order);
+         (uint8 v, bytes32 r, bytes32 s) = vm.sign(userPk,MessageHashUtils.toTypedDataHash(domainSeparator,orderId));
+        bytes memory signature = abi.encodePacked(r, s, v);
+        address signer = ECDSA.recover(MessageHashUtils.toTypedDataHash(domainSeparator,orderId), signature);
+        assertEq(signer, address(user), "Invalid signature");
+ 
+        assertEq(nft.ownerOf(nftId), user, "NFT should belong to user");
+ 
+        // 上架 NFT
         vm.prank(user);
-        token.approve(address(nftMarket), 100);
+        nftMarket.listNFT(order, signature); 
 
+        // 获取订单ID
+        bytes32 orderId2 = nftMarket.listing(address(nft), nftId);
+        assertEq(orderId2, orderId, "Order ID should match");
+
+        // 给用户2一些Token
+        vm.deal(user, 1000 ether);
+        vm.deal(user2, 1000 ether);
+        vm.deal(address(nftMarket), 1000 ether);
+        deal(address(token), user2,1 ether);
+        deal(address(token), user,1 ether);
+
+        // // 用户2批准NFT市场购买NFT
+        vm.prank(user2);
+        token.approve(address(nftMarket),1 ether);
+     
+        // 用户2购买NFT
+        vm.prank(user2);
+        nftMarket.buyNFT(orderId2);
+
+        assertEq(nft.ownerOf(nftId), user2, "NFT should belong to user2");  
+        assertEq(token.balanceOf(user2),1 ether-price, "User2 should have 999999900 tokens");
+        assertEq(nftMarket.getNFTPrice(orderId2),0, "NFT should be delisted");
+    }
+
+
+    //2 测试通过ETH上架和购买
+    function test_list_and_buy2() public {
+        IERC20  token = IERC20(address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE));
+        uint256 price = 1000000;
+        uint256 deadline = block.timestamp + 1 days; 
+        ListOrder memory order = ListOrder({
+            nft: address(nft),
+            tokenId: nftId,
+            payToken: address(token),
+            price: price,
+            deadline: deadline
+        }); 
+        bytes32 orderId = nftMarket.orderHash(order);
+        console.logBytes32(orderId);
+        bytes32 messageHash = MessageHashUtils.toEthSignedMessageHash(orderId);
+        console.logBytes32(messageHash);
+         (uint8 v, bytes32 r, bytes32 s) = vm.sign(userPk, messageHash);
+        bytes memory signature = abi.encodePacked(r, s, v);
+        address signer = ECDSA.recover(messageHash, signature);
+        assertEq(signer, address(user), "Invalid signature");
+ 
+        assertEq(nft.ownerOf(nftId), user, "NFT should belong to user");
+ 
         // 上架 NFT
-        nftMarket.list(nftId, 100);
-        deal(address(token), user, 1);
+        vm.prank(user);
+        nftMarket.listNFT(order, signature); 
 
-        vm.expectRevert("Insufficient token amount to buy NFT");
-        nftMarket.buyNFT(user, 1, nftId);
+        // 获取订单ID
+        bytes32 orderId2 = nftMarket.listing(address(nft), nftId);
+        assertEq(orderId2, orderId, "Order ID should match");
+
+        // 给用户2一些Token
+        vm.deal(user, 1000 ether);
+        vm.deal(user2, 1000 ether); 
+        
+
+          // fee 0.3% or 0
+        uint256 fee = price * 30 / 10000;
+        uint256 value1=price+fee;
+
+        // 用户2购买NFT
+        vm.prank(user2);
+        nftMarket.buyNFT{value:value1}(orderId2);
+
+
+        assertEq(nft.ownerOf(nftId), user2, "NFT should belong to user2");  
+        assertEq(user2.balance,1000 ether-value1, "User2 should have 999999900 tokens");
+        assertEq(nftMarket.getNFTPrice(orderId2),0, "NFT should be delisted");
+    }
+    function _hashTypedDataV4(bytes32 structHash) internal view virtual returns (bytes32) {
+        return MessageHashUtils.toTypedDataHash(nftMarket.buildDomainSeparator(), structHash);
+    }
+   
+
+    function orderHash(ListOrder memory order) public view returns (bytes32) {
+        bytes32 structHash = keccak256(abi.encode(
+            keccak256("ListOrder(address nft,uint256 tokenId,address payToken,uint256 price,uint256 deadline)"),  
+            order.nft,
+            order.tokenId,
+            order.payToken,
+            order.price,
+            order.deadline 
+        )); 
+        // Generate the final hash that complies with EIP712
+        return _hashTypedDataV4(structHash); 
     }
 
-    //模糊测试：测试随机使用 0.01-10000 Token价格上架NFT，并随机使用任意Address购买NFT
-    /// forge-config: default.fuzz.runs = 100
-    function test_fuzz_buy(uint256 price, address buyer) public {
-        vm.assume(buyer != address(0));
-        price = bound(price, 0.01 ether, 10000 ether);
-        vm.assume(price > 0.01 ether && price < 10000 ether);
-
-        nftMarket = new NftMarket(address(nft), address(token));
-        nft.approve(address(nftMarket), nftId);
-        nftMarket.list(nftId, price);
-
-        vm.prank(buyer);
-        token.approve(address(nftMarket), price);
-        deal(address(token), buyer, price);
-
-        // 购买NFT
-        vm.expectEmit(true, true, false, true);
-        emit NFTBought(nftId, buyer, price);
-        nftMarket.buyNFT(buyer, price, nftId);
-
-        assertEq(nftMarket.getNFTPrice(nftId), price);
-    }
-
-    //不可变测试：测试无论如何买卖，NFTMarket合约中都不可能有 Token 持仓
-    // 不可变测试
-    function invariant_noTokenHoldings() public view {
-        uint256 contractBalance = token.balanceOf(address(nftMarket));
-        assertEq(contractBalance, 0, "NFTMarket should not hold any Tokens");
-    }
 }

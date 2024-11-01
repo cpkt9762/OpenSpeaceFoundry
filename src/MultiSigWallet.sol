@@ -145,13 +145,13 @@ contract SimpleMultiSigWallet {
     function getProposalCount() public view returns (uint) {
         return proposals.length;
     }
-    // 获取提案信息
-    function getProposal(uint proposalId)
-        public
-        view
-        returns (address destination, uint value, bytes memory data, bool executed, uint confirmations)
-    {
-        Proposal storage proposal = proposals[proposalId];
-        return (proposal.destination, proposal.value, proposal.data, proposal.executed, proposal.confirmations);
-    }
+    // // 获取提案信息
+    // function getProposal(uint proposalId)
+    //     public
+    //     view
+    //     returns (address destination, uint value, bytes memory data, bool executed, uint confirmations)
+    // {
+    //     Proposal storage proposal = proposals[proposalId];
+    //     return (proposal.destination, proposal.value, proposal.data, proposal.executed, proposal.confirmations);
+    // }
 }

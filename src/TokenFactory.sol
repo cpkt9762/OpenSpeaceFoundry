@@ -82,7 +82,7 @@ contract TokenFactoryV1 is  UUPSUpgradeable, OwnableUpgradeable {
     ) internal virtual override onlyOwner {}
 
 
-    function upgradeTo(address newImplementation) public {
+    function upgradeTo(address newImplementation) public  {
         require(msg.sender == owner(), "Only owner can upgrade");
         implementation = newImplementation;
     }

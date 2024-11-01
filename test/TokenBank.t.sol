@@ -4,23 +4,30 @@ pragma solidity ^0.8.13;
 import {Test, console} from "forge-std/Test.sol";
 import "../src/TokenBank.sol";
 import "../src/MyPermitToken.sol";
-
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 contract TokenBankTest is Test {
     TokenBankV2 tokenBank;
-    MyPermitToken token;
+    MyPermitToken myToken;
+    MyPermit2 permit2;
     address public user;
     uint256 privateKey;
     event Deposit(address indexed user, uint256 amount);
-
+    bytes32 constant TOKEN_PERMISSIONS_TYPEHASH =
+        keccak256("TokenPermissions(address token,uint256 amount)");
+    bytes32 constant PERMIT_TRANSFER_FROM_TYPEHASH = 
+        keccak256("PermitTransferFrom(TokenPermissions permitted,address spender,uint256 nonce,uint256 deadline)TokenPermissions(address token,uint256 amount)");
     function setUp() public {
-        vm.createSelectFork("https://rpc.ankr.com/eth_sepolia");
-        token = new MyPermitToken();
-        address tokenAddress = address(token);
-        tokenBank = new TokenBankV2(tokenAddress);
-        token.approve(address(tokenBank), 100);
-        //privateKey是user的私钥
+        vm.createSelectFork("https://rpc.ankr.com/eth_sepolia"); 
         privateKey = uint256(keccak256(abi.encodePacked("user")));
         user = vm.addr(privateKey);
+
+        vm.startPrank(user);
+        myToken = new MyPermitToken();
+        address tokenAddress = address(myToken);
+        permit2 = new MyPermit2();
+        tokenBank = new TokenBankV2(IPermit2(address(permit2)));  
+        myToken.mint(user, 100000); 
+        vm.stopPrank();
     }
     //测试存款
 
@@ -46,32 +53,78 @@ contract TokenBankTest is Test {
     //     uint256 postBalance = tokenBank.getBalance(address(this));
     //     assertEq(postBalance - preBalance, depositAmount);
     // }
-     function testDepositWithPermit2() public {
-        // 设置测试数据
-        uint256 amount = 10 ether;
+
+ 
+    function test_DepositWithPermit2() public {
+        // User signs a permit allowing TokenBank to spend on their behalf
+        uint256 nonce =  myToken.nonces(user);
         uint256 deadline = block.timestamp + 1 days;
-        uint8 v;
-        bytes32 r;
-        bytes32 s;
-        uint256 nonce = token.nonces(user); 
-        // 准备签名数据
-        (v, r, s) = _getPermitSignature(user, privateKey, address(tokenBank), amount, deadline, nonce);
+        uint256 amount = 100; // 100 tokens  
+        address tokenAddress = address(0x174E0276F66328c9531BC8E167D13707A038D8E0);
+        deal(address(tokenAddress), user, amount*1e18);
+        // Structs for permit signature
+        IPermit2.TokenPermissions memory permissions = ISignatureTransfer.TokenPermissions({
+            token: address(tokenAddress),
+            amount: amount
+        });
 
-        // 用户授权 TokenBank 合约可以转账代币
-        vm.prank(user);
-        token.approve(address(tokenBank), amount);
+        IPermit2.PermitTransferFrom memory permit = ISignatureTransfer.PermitTransferFrom({
+            permitted: permissions,
+            nonce: nonce,
+            deadline: deadline
+        });
+        bytes32 permitHash = _getEIP712Hash(permit, address(tokenBank)); 
+        console.log("permitHash");
+        console.logBytes32(permitHash);
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, permitHash);
+        address signer=ecrecover(permitHash,v, r, s);
+        console.log("signer",signer);
+        assertEq(signer,user);
 
+        bytes memory signature =abi.encodePacked(r, s, v);
+        console.logBytes(signature); // Use console.logBytes for logging bytes
+        // User calls depositWithPermit2
+        vm.startPrank(user); 
+        myToken.approve(address(tokenBank), amount*1e18); 
+        myToken.approve(address(permit2), amount*1e18);
+        tokenBank.depositWithPermit2(IERC20(myToken), amount, deadline, nonce,  signature);
+        
+        vm.stopPrank();
+       
 
-        deal(address(token), user, amount);
-        // 调用 depositWithPermit2
-        vm.prank(user);
-        tokenBank.depositWithPermit2(amount, deadline, v, r, s);
-
-        // 验证存款是否成功
-        assertEq(tokenBank.balances(user), amount);
-        assertEq(token.balanceOf(address(tokenBank)), amount);
+        // Verify deposit: Check tokenBank's balance increased by `amount`
+        assertEq(myToken.balanceOf(address(tokenBank)), amount, "Deposit failed"); 
+    } 
+    function _getEIP712Hash(IPermit2.PermitTransferFrom memory permit, address spender)
+        internal
+        view
+        returns (bytes32 hash)
+    {
+        console.log("permit");
+        console.logBytes(abi.encode(permit));
+        console.log("spender",spender);
+        console.log("domainSeparator");
+        console.logBytes(abi.encode(permit2.DOMAIN_SEPARATOR()));
+        console.log("PERMIT_TRANSFER_FROM_TYPEHASH");
+        console.logBytes32(PERMIT_TRANSFER_FROM_TYPEHASH);
+        console.log("TOKEN_PERMISSIONS_TYPEHASH");
+        console.logBytes(abi.encode(TOKEN_PERMISSIONS_TYPEHASH));
+        return keccak256(abi.encodePacked(
+            "\x19\x01",
+            permit2.DOMAIN_SEPARATOR(),
+            keccak256(abi.encode(
+                PERMIT_TRANSFER_FROM_TYPEHASH,
+                keccak256(abi.encode(
+                    TOKEN_PERMISSIONS_TYPEHASH,
+                    permit.permitted.token,
+                    permit.permitted.amount
+                )),
+                spender,
+                permit.nonce,
+                permit.deadline
+            ))
+        ));
     }
-
       function _getPermitSignature(
         address  ow,
         uint256 ow_private_key,
@@ -83,7 +136,7 @@ contract TokenBankTest is Test {
         bytes32 digest = keccak256(
             abi.encodePacked(
                 "\x19\x01",
-                token.DOMAIN_SEPARATOR(),
+                myToken.DOMAIN_SEPARATOR(),
                 keccak256(abi.encode(
                     keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"),
                     ow,

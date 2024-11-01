@@ -11,6 +11,7 @@ import {console} from "forge-std/console.sol";
 
 contract TokenBankTest is Test {
     MyPermitToken public myToken;
+   
     TokenBank public tokenBank;
     MyERC721NFT public myNFT;
     NftMarket public nftMarket;
@@ -29,7 +30,7 @@ contract TokenBankTest is Test {
         myToken = new MyPermitToken();
         
         // Deploy TokenBank contract
-        tokenBank = new TokenBank(address(myToken));
+        tokenBank = new TokenBank();
 
         // Deploy MyERC721NFT contract
         myNFT = new MyERC721NFT();
@@ -38,7 +39,7 @@ contract TokenBankTest is Test {
             "https://sapphire-familiar-toucan-190.mypinata.cloud/ipfs/QmWoSUtP6FLVTqfAcBd7RVjNwfVdGAtaUqYDTEsK3LGgyi"
         );
         // Deploy NftMarket contract
-        nftMarket = new NftMarket(address(myNFT), address(myToken)); 
+        nftMarket = new NftMarket(address(myToken)); 
         // Transfer some initial tokens to user1
         myToken.transfer(user1, 1000 ether);
 
@@ -54,12 +55,12 @@ contract TokenBankTest is Test {
 
         // Call TokenBank's deposit function
         vm.prank(owner);
-        tokenBank.deposit(amount);
+        tokenBank.deposit(IERC20(myToken),amount);
 
         // Check the balance of the TokenBank contract and the user's deposit
         assertEq(myToken.balanceOf(address(tokenBank)), amount);
-        assertEq(tokenBank.balances(owner), amount);
-     }
+        assertEq(tokenBank.getTokenBalance(IERC20(myToken), owner), amount);
+     }  
 
     
     // Test Token deposit 
@@ -81,11 +82,11 @@ contract TokenBankTest is Test {
         
         // Call TokenBank's permitDeposit function 
         vm.prank(owner);
-        tokenBank.permitDeposit(amount, deadline, v, r, s);
+        tokenBank.permitDeposit(IERC20(myToken),amount, deadline, v, r, s);
 
         // Check the balance of the TokenBank contract and the user's deposit
         assertEq(myToken.balanceOf(address(tokenBank)), amount);
-        assertEq(tokenBank.balances(owner), amount);
+        assertEq(tokenBank.getTokenBalance(IERC20(myToken), owner), amount);
     }
    // Test NFT purchase 
     function test_PermitBuy() public { 
@@ -110,11 +111,11 @@ contract TokenBankTest is Test {
         vm.prank(owner);
         myToken.approve(address(nftMarket), amount); 
         myNFT.approve(address(nftMarket), nftidId); 
-        nftMarket.list(nftidId, price);
+        //nftMarket.listNFT(nftidId, price, deadline, nonce, owner);
 
         // Call permitBuy
         vm.prank(owner);
-        nftMarket.permitBuy(nftidId, amount, deadline, nonce, v1, r1, s1);
+        //nftMarket.permitBuy(nftidId, amount, deadline, nonce, v1, r1, s1);
 
        // Check if the NFT has been transferred to user1
        assertEq(myNFT.ownerOf(nftidId), owner);

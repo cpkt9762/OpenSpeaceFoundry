@@ -4,7 +4,8 @@ pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
 import "../src/TokenFactory.sol"; 
-import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+import "lib/openzeppelin-contracts/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+
 contract TokenFactoryTest is Test {
     TokenFactoryV1 tokenFactoryV1;
     TokenFactoryV2 tokenFactoryV2;
