@@ -87,15 +87,16 @@ contract StakePool is Ownable {
 
     /*
     兑换 esRNT 为 RNT 
-    1 esRNT 在 30 天后可兑换 1 RNT
     */
     function redeemEsRNT() external {
-        uint256 amount = stakes[msg.sender].staked;
+        uint256 amount =calculateReward(msg.sender);
         //获取锁仓信息 
-        require(amount > 0, "not enough token can be collection"); 
+        require(amount > 0, "not enough token can be collection");  
         //判断是否超过30天
-        require(block.timestamp - stakes[msg.sender].startTime >= 30 days, "not enough time");
-
+        if(block.timestamp - stakes[msg.sender].startTime >= 30 days){ 
+            //1 esRNT 在 30 天后可兑换 1 RNT
+            amount =  stakes[msg.sender].staked;
+        }
         // 销毁 esRNT
         esrntToken.burn(msg.sender, amount); 
 
