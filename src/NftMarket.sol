@@ -59,6 +59,7 @@ contract ListingMapKeys {
         return _keys;
     }
 } 
+
 contract NftMarket is Ownable, IERC721Receiver,  EIP712 { 
 
   

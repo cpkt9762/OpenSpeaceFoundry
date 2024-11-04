@@ -1,0 +1,371 @@
+ forge test -vvvvv  --match-path test/IDO/Ido.t.sol
+ Ran 5 tests for test/IDO/Ido.t.sol:IDOTest
+[PASS] testClaimTokens() (gas: 127214)
+Logs:
+  block.timestamp 25920001
+  startTime + duration 2592001
+
+Traces:
+  [1530549] IDOTest::setUp()
+    ├─ [421167] → new MockERC20@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   └─ ← [Return] 1874 bytes of code
+    ├─ [744076] → new IDO@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit PresaleStarted(token: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], price: 1000000000000000000 [1e18], target: 10000000000000000000 [1e19], cap: 20000000000000000000 [2e19], duration: 2592000 [2.592e6])
+    │   └─ ← [Return] 2813 bytes of code
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [24349] MockERC20::approve(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   ├─ emit Approval(owner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], spender: IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   └─ ← [Return] true
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [2563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579], []
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x000000000000000000000000000000000000000000000001158e460913d00000)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    └─ ← [Return] 
+
+  [147114] IDOTest::testClaimTokens()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [55038] IDO::contribute{value: 10000000000000000000}()
+    │   ├─ emit Contribution(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [26954] IDO::finalize()
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(25920001 [2.592e7])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [41012] IDO::claimTokens()
+    │   ├─ [0] console::log("block.timestamp", 25920001 [2.592e7]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("startTime + duration", 2592001 [2.592e6]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [29655] MockERC20::transfer(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit TokensClaimed(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testContribution() (gas: 74056)
+Traces:
+  [1530549] IDOTest::setUp()
+    ├─ [421167] → new MockERC20@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   └─ ← [Return] 1874 bytes of code
+    ├─ [744076] → new IDO@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit PresaleStarted(token: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], price: 1000000000000000000 [1e18], target: 10000000000000000000 [1e19], cap: 20000000000000000000 [2e19], duration: 2592000 [2.592e6])
+    │   └─ ← [Return] 2813 bytes of code
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [24349] MockERC20::approve(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   ├─ emit Approval(owner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], spender: IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   └─ ← [Return] true
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [2563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579], []
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x000000000000000000000000000000000000000000000001158e460913d00000)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    └─ ← [Return] 
+
+  [74056] IDOTest::testContribution()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [55038] IDO::contribute{value: 1000000000000000000}()
+    │   ├─ emit Contribution(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [478] IDO::contributions(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000 [1e18]
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testFinalize() (gas: 36143)
+Traces:
+  [1530549] IDOTest::setUp()
+    ├─ [421167] → new MockERC20@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   └─ ← [Return] 1874 bytes of code
+    ├─ [744076] → new IDO@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit PresaleStarted(token: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], price: 1000000000000000000 [1e18], target: 10000000000000000000 [1e19], cap: 20000000000000000000 [2e19], duration: 2592000 [2.592e6])
+    │   └─ ← [Return] 2813 bytes of code
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [24349] MockERC20::approve(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   ├─ emit Approval(owner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], spender: IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   └─ ← [Return] true
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [2563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579], []
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x000000000000000000000000000000000000000000000001158e460913d00000)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    └─ ← [Return] 
+
+  [36143] IDOTest::testFinalize()
+    ├─ [26721] IDO::finalize()
+    │   └─ ← [Return] 
+    ├─ [556] IDO::finalized() [staticcall]
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertEq(true, true) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testOwnerWithdraw() (gas: 53160)
+Logs:
+  block.timestamp 259200001
+  startTime + duration 2592001
+
+Traces:
+  [1530549] IDOTest::setUp()
+    ├─ [421167] → new MockERC20@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   └─ ← [Return] 1874 bytes of code
+    ├─ [744076] → new IDO@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit PresaleStarted(token: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], price: 1000000000000000000 [1e18], target: 10000000000000000000 [1e19], cap: 20000000000000000000 [2e19], duration: 2592000 [2.592e6])
+    │   └─ ← [Return] 2813 bytes of code
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [24349] MockERC20::approve(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   ├─ emit Approval(owner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], spender: IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   └─ ← [Return] true
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [2563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579], []
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x000000000000000000000000000000000000000000000001158e460913d00000)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    └─ ← [Return] 
+
+  [53160] IDOTest::testOwnerWithdraw()
+    ├─ [0] VM::startPrank(IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 30000000000000000000 [3e19])
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(259200001 [2.592e8])
+    │   └─ ← [Return] 
+    ├─ [26954] IDO::finalize()
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], 0)
+    │   └─ ← [Return] 
+    ├─ [17576] IDO::withdrawETH()
+    │   ├─ [0] console::log("block.timestamp", 259200001 [2.592e8]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("startTime + duration", 2592001 [2.592e6]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [67] IDOTest::receive{value: 30000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   ├─ emit WithdrawETH(owner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], amount: 30000000000000000000 [3e19])
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(30000000000000000000 [3e19], 30000000000000000000 [3e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testRefund() (gas: 108474)
+Logs:
+  block.timestamp 25920001
+  startTime + duration 2592001
+
+Traces:
+  [1530549] IDOTest::setUp()
+    ├─ [421167] → new MockERC20@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   └─ ← [Return] 1874 bytes of code
+    ├─ [744076] → new IDO@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit PresaleStarted(token: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], price: 1000000000000000000 [1e18], target: 10000000000000000000 [1e19], cap: 20000000000000000000 [2e19], duration: 2592000 [2.592e6])
+    │   └─ ← [Return] 2813 bytes of code
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [24349] MockERC20::approve(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   ├─ emit Approval(owner: IDOTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], spender: IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77])
+    │   └─ ← [Return] true
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [2563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579], []
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, slot: 89892773380115984225552424749855520324994767610191222415425610409945107105145 [8.989e76])
+    ├─ [0] VM::load(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MockERC20: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc6bd81b73d1fd76b6ab7b2a3e675f602f162633118b2ec0b74d6456669dd8579, 0x000000000000000000000000000000000000000000000001158e460913d00000)
+    │   └─ ← [Return] 
+    ├─ [563] MockERC20::balanceOf(IDO: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    └─ ← [Return] 
+
+  [140858] IDOTest::testRefund()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 5000000000000000000 [5e18])
+    │   └─ ← [Return] 
+    ├─ [55038] IDO::contribute{value: 5000000000000000000}()
+    │   ├─ emit Contribution(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 5000000000000000000 [5e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [26721] IDO::finalize()
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(25920001 [2.592e7])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [38282] IDO::withdraw()
+    │   ├─ [0] console::log("block.timestamp", 25920001 [2.592e7]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("startTime + duration", 2592001 [2.592e6]) [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] alice::fallback{value: 5000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   ├─ emit Refund(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 5000000000000000000 [5e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(5000000000000000000 [5e18], 5000000000000000000 [5e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 1.32ms (517.99µs CPU time)
+
+Ran 1 test suite in 691.17ms (1.32ms CPU time): 5 tests passed, 0 failed, 0 skipped (5 total tests)

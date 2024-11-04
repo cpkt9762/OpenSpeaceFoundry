@@ -32,7 +32,7 @@ contract NftMarketTest is Test {
        
         nft = new MyERC721NFT();
         vm.prank(user);
-        nftId = nft.mintNFT(  "https://sapphire-familiar-toucan-190.mypinata.cloud"  );
+        nftId = nft.mintNFT("https://sapphire-familiar-toucan-190.mypinata.cloud"  );
         vm.prank(user);
         nftMarket = new NftMarket(address(user)); 
 

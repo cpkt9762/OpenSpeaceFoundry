@@ -1,0 +1,417 @@
+forge test -vvvvv  --match-path test/RNT/Staking.t.sol
+[⠊] Compiling...
+[⠒] Unable to resolve imports: 
+with remappings:
+      @openzeppelin/contracts-upgradeable/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts-upgradeable/contracts/
+      @openzeppelin/contracts/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts/contracts/
+      permit2/=/home/xhh/code/OpenSpeaceFoundry/lib/permit2/
+      ds-test/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/
+      erc4626-tests/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts/lib/erc4626-tests/
+      forge-std/=/home/xhh/code/OpenSpeaceFoundry/lib/forge-std/src/
+      halmos-cheatcodes/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/
+      openzeppelin-contracts-upgradeable/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts-upgradeable/
+      openzeppelin-contracts/=/home/xhh/code/OpenSpeaceFoundry/lib/openzeppelin-contracts/
+      forge-gas-snapshot/=/home/xhh/code/OpenSpeaceFoundry/lib/permit2/lib/forge-gas-snapshot/src/
+      solmate/=/home/xhh/code/OpenSpeaceFoundry/lib/permit2/lib/solmate/
+[⠑] Compiling 1 files with Solc 0.8.21
+[⠃] Solc 0.8.21 finished in 9.57s
+Compiler run successful with warnings:
+Warning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.
+  --> src/RNT/esRNT.sol:30:41:
+   |
+30 |     function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
+   |                                         ^^^^^^^^^^
+
+Warning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.
+  --> src/RNT/esRNT.sol:30:53:
+   |
+30 |     function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
+   |                                                     ^^^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to view
+  --> src/RNT/esRNT.sol:30:5:
+   |
+30 |     function transferFrom(address from, address to, uint256 amount) public override returns (bool) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 4 tests for test/RNT/Staking.t.sol:StakingTest
+[PASS] testClaimReward() (gas: 385524)
+Traces:
+  [2577852] StakingTest::setUp()
+    ├─ [906677] → new RNT@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], value: 1000000000000000000000000 [1e24])
+    │   └─ ← [Return] 3949 bytes of code
+    ├─ [682163] → new esRNT@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2943 bytes of code
+    ├─ [640256] → new StakePool@0xF62849F9A0B5Bf2913b396098F7c7019b51A820a
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2747 bytes of code
+    ├─ [139354] esRNT::mint(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 1000000000000000000000000 [1e24])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 1000000000000000000000000 [1e24])
+    │   ├─ emit Minted(_user: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], _amount: 1000000000000000000000000 [1e24], lockTime: 1)
+    │   └─ ← [Return] 
+    ├─ [582] esRNT::balanceOf(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    ├─ [0] VM::assertEq(1000000000000000000000000 [1e24], 1000000000000000000000000 [1e24]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [2501] esRNT::transferOwnership(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [24384] RNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [24343] esRNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+  [465124] StakingTest::testClaimReward()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [2560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca], []
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x00000000000000000000000000000000000000000000d3c21bcecceda1000000)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    ├─ [208517] StakePool::stake(10000000000000000000 [1e19])
+    │   ├─ [30238] RNT::transferFrom(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [124254] esRNT::mint(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   ├─ emit Minted(_user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], _amount: 10000000000000000000 [1e19], lockTime: 1)
+    │   │   └─ ← [Return] 
+    │   ├─ emit Staked(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(11)
+    │   └─ ← [Return] 
+    ├─ [16011] StakePool::claim()
+    │   ├─ [2582] esRNT::balanceOf(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    │   ├─ [5787] esRNT::transfer(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 115740740740740 [1.157e14])
+    │   │   ├─ emit Transfer(from: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 115740740740740 [1.157e14])
+    │   │   └─ ← [Return] true
+    │   ├─ emit RewardClaimed(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], reward: 115740740740740 [1.157e14])
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 999990000000000000000000 [9.999e23]
+    ├─ [0] VM::assertGt(999990000000000000000000 [9.999e23], 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testRedeemEsRNT() (gas: 396464)
+Traces:
+  [2577852] StakingTest::setUp()
+    ├─ [906677] → new RNT@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], value: 1000000000000000000000000 [1e24])
+    │   └─ ← [Return] 3949 bytes of code
+    ├─ [682163] → new esRNT@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2943 bytes of code
+    ├─ [640256] → new StakePool@0xF62849F9A0B5Bf2913b396098F7c7019b51A820a
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2747 bytes of code
+    ├─ [139354] esRNT::mint(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 1000000000000000000000000 [1e24])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 1000000000000000000000000 [1e24])
+    │   ├─ emit Minted(_user: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], _amount: 1000000000000000000000000 [1e24], lockTime: 1)
+    │   └─ ← [Return] 
+    ├─ [582] esRNT::balanceOf(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    ├─ [0] VM::assertEq(1000000000000000000000000 [1e24], 1000000000000000000000000 [1e24]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [2501] esRNT::transferOwnership(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [24384] RNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [24343] esRNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+  [500845] StakingTest::testRedeemEsRNT()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [2560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca], []
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x0000000000000000000000000000000000000000000000008ac7230489e80000)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [208517] StakePool::stake(10000000000000000000 [1e19])
+    │   ├─ [30238] RNT::transferFrom(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [124254] esRNT::mint(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   ├─ emit Minted(_user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], _amount: 10000000000000000000 [1e19], lockTime: 1)
+    │   │   └─ ← [Return] 
+    │   ├─ emit Staked(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(2592001 [2.592e6])
+    │   └─ ← [Return] 
+    ├─ [51772] StakePool::redeemEsRNT()
+    │   ├─ [25443] esRNT::burn(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], to: 0x0000000000000000000000000000000000000000, value: 10000000000000000000 [1e19])
+    │   │   ├─ emit Burned(_user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], _amount: 10000000000000000000 [1e19], unlockTime: 2592001 [2.592e6])
+    │   │   └─ ← [Return] 
+    │   ├─ [22940] RNT::transfer(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit RedeemEsRNT(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testStake() (gas: 370831)
+Traces:
+  [2577852] StakingTest::setUp()
+    ├─ [906677] → new RNT@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], value: 1000000000000000000000000 [1e24])
+    │   └─ ← [Return] 3949 bytes of code
+    ├─ [682163] → new esRNT@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2943 bytes of code
+    ├─ [640256] → new StakePool@0xF62849F9A0B5Bf2913b396098F7c7019b51A820a
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2747 bytes of code
+    ├─ [139354] esRNT::mint(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 1000000000000000000000000 [1e24])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 1000000000000000000000000 [1e24])
+    │   ├─ emit Minted(_user: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], _amount: 1000000000000000000000000 [1e24], lockTime: 1)
+    │   └─ ← [Return] 
+    ├─ [582] esRNT::balanceOf(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    ├─ [0] VM::assertEq(1000000000000000000000000 [1e24], 1000000000000000000000000 [1e24]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [2501] esRNT::transferOwnership(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [24384] RNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [24343] esRNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+  [450431] StakingTest::testStake()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [2560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca], []
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x00000000000000000000000000000000000000000000003635c9adc5dea00000)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000 [1e21]
+    ├─ [208517] StakePool::stake(10000000000000000000 [1e19])
+    │   ├─ [30238] RNT::transferFrom(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [124254] esRNT::mint(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   ├─ emit Minted(_user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], _amount: 10000000000000000000 [1e19], lockTime: 1)
+    │   │   └─ ← [Return] 
+    │   ├─ emit Staked(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [2977] StakePool::getStakeInfo() [staticcall]
+    │   └─ ← [Return] StakeInfo({ staked: 10000000000000000000 [1e19], unclaimed: 0, startTime: 1 })
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+[PASS] testWithdraw() (gas: 375448)
+Traces:
+  [2577852] StakingTest::setUp()
+    ├─ [906677] → new RNT@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], value: 1000000000000000000000000 [1e24])
+    │   └─ ← [Return] 3949 bytes of code
+    ├─ [682163] → new esRNT@0x2e234DAe75C793f67A35089C9d99245E1C58470b
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2943 bytes of code
+    ├─ [640256] → new StakePool@0xF62849F9A0B5Bf2913b396098F7c7019b51A820a
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496])
+    │   └─ ← [Return] 2747 bytes of code
+    ├─ [139354] esRNT::mint(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 1000000000000000000000000 [1e24])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 1000000000000000000000000 [1e24])
+    │   ├─ emit Minted(_user: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], _amount: 1000000000000000000000000 [1e24], lockTime: 1)
+    │   └─ ← [Return] 
+    ├─ [582] esRNT::balanceOf(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000000 [1e24]
+    ├─ [0] VM::assertEq(1000000000000000000000000 [1e24], 1000000000000000000000000 [1e24]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [2501] esRNT::transferOwnership(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   ├─ emit OwnershipTransferred(previousOwner: StakingTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], newOwner: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [24384] RNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [24343] esRNT::approve(StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 100000000000000000000 [1e20])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 100000000000000000000 [1e20])
+    │   └─ ← [Return] true
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+  [474575] StakingTest::testWithdraw()
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [2560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f])
+    │   └─ ← [Return] [0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca], []
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], fsig: 0x70a08231, keysHash: 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, slot: 95644921615052904463516426797673596785002766376466830831407705745960572361930 [9.564e76])
+    ├─ [0] VM::load(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(RNT: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xd3751b735d9edcdf3462f9493be94138f68ee6a5bfd2c14f7e1a7b0b58f11cca, 0x0000000000000000000000000000000000000000000000008ac7230489e80000)
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [208517] StakePool::stake(10000000000000000000 [1e19])
+    │   ├─ [30238] RNT::transferFrom(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], to: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [124254] esRNT::mint(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   ├─ emit Minted(_user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], _amount: 10000000000000000000 [1e19], lockTime: 1)
+    │   │   └─ ← [Return] 
+    │   ├─ emit Staked(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [25779] StakePool::withdraw(10000000000000000000 [1e19])
+    │   ├─ [22940] RNT::transfer(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: StakePool: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Withdrawn(user: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 10000000000000000000 [1e19])
+    │   └─ ← [Return] 
+    ├─ [560] RNT::balanceOf(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Return] 
