@@ -1,0 +1,10 @@
+node_modules
+/*.env
+/out
+/build
+/cache
+/lib
+.env
+debug
+release
+Cargo.lock
