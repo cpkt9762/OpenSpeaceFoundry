@@ -18,7 +18,6 @@ struct ListOrder {
     uint256 price;
     uint256 deadline;
 }
-
 struct Listing {
     address seller; // Seller
     address nft; // NFT address
@@ -27,39 +26,79 @@ struct Listing {
     uint256 price; // Price
     uint256 deadline; // Deadline
     bool isListed; // Is listed
-    uint256 index;
 }
-contract ListingMapKeys {
-    mapping(bytes32 => Listing)  private _data;
-    bytes32[] private _keys;
-    
-    function setValue(bytes32 key, Listing memory value) external {
-      
-        if (!exists(key)) {
-            _keys.push(key);
-            value.index = _keys.length - 1;
-              _data[key] = value;
-        }
-      
-    }
-    function getValue(bytes32 key) external view returns (Listing memory) {
-        return _data[key];
-    }
-    //Delist 
-    function delList(bytes32 key) external {
-        _data[key].isListed = false; 
-        delete _keys[_data[key].index];
-        delete  _data[key];
-    }
-    function exists(bytes32 key) public view returns (bool) {
-        return _data[key].isListed;
-    }
-    
-    function getAllKeys() public view returns (bytes32[] memory) {
-        return _keys;
-    }
-} 
 
+struct Node {
+    Listing listing;
+    bytes32 next;
+}
+
+contract ListingMapKeys {
+    mapping(bytes32 => Node) private _data;
+    bytes32 private _head;
+    bytes32 private _tail;
+
+    function setValue(bytes32 key, Listing memory value) external {
+        if (!exists(key)) {
+            Node memory newNode = Node({listing: value, next: bytes32(0)});
+            if (_head == bytes32(0)) {
+                _head = key;
+                _tail = key;
+            } else {
+                _data[_tail].next = key;
+                _tail = key;
+            }
+            _data[key] = newNode;
+        }
+    }
+
+    function getValue(bytes32 key) external view returns (Listing memory) {
+        return _data[key].listing;
+    }
+
+    // Delist
+    function delList(bytes32 key) external {
+        require(exists(key), "Listing does not exist");
+        _data[key].listing.isListed = false;
+
+        // Remove from linked list
+        if (_head == key) {
+            _head = _data[key].next;
+        } else {
+            bytes32 current = _head;
+            while (_data[current].next != key) {
+                current = _data[current].next;
+            }
+            _data[current].next = _data[key].next;
+            if (_tail == key) {
+                _tail = current;
+            }
+        }
+
+        delete _data[key];
+    }
+
+    function exists(bytes32 key) public view returns (bool) {
+        return _data[key].listing.isListed;
+    }
+
+    function getAllKeys() public view returns (bytes32[] memory) {
+        uint256 count = 0;
+        bytes32 current = _head;
+        while (current != bytes32(0)) {
+            count++;
+            current = _data[current].next;
+        }
+
+        bytes32[] memory keys = new bytes32[](count);
+        current = _head;
+        for (uint256 i = 0; i < count; i++) {
+            keys[i] = current;
+            current = _data[current].next;
+        }
+        return keys;
+    }
+}
 contract NftMarket is Ownable, IERC721Receiver,  EIP712 { 
 
   
@@ -164,16 +203,20 @@ contract NftMarket is Ownable, IERC721Receiver,  EIP712 {
                         || IERC721(order.nft).isApprovedForAll(msg.sender, address(this)),
             "not approved"
         ); 
-        listingOrders.setValue(orderId, Listing({
+
+
+        Listing memory newListing = Listing({
             nft: order.nft,
             tokenId: order.tokenId,
             seller: msg.sender,
             payToken: order.payToken,
             price: order.price,
             deadline: order.deadline,
-            isListed: true,
-            index: 0
-        }));
+            isListed: true
+        });
+
+        // 8. Set listing
+        listingOrders.setValue(orderId, newListing); 
         _lastIds[order.nft][order.tokenId] = orderId; 
         emit List(order.nft, order.tokenId, orderId, msg.sender, order.payToken, order.price, order.deadline);
     }

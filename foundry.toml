@@ -2,14 +2,20 @@
 src = "src"
 out = "out"
 libs = ["lib"]
-solc = "0.8.21"
-solc-version = "0.8.21"
+solc = "0.8.22"
+solc-version = "0.8.22"
 viaIR = true
+ast = true
+build_info = true
+extra_output = ["storageLayout"]
+evm_version="cancun"
+
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 [profile.anvil]
-fork_url = "https://sepolia.infura.io/v3/52edd380729e46e3a485e8e5e754ea1e" # 替换为你自己的节
+fork_url = "https://eth-sepolia.g.alchemy.com/v2/GbPXnaoHBlpc_b3SLlgOYXdKKbuVsQIt" # 替换为你自己的节
 #openzeppelin-contracts
 #openzeppelin-contracts-upgradeable
 
- 
+[rpc_endpoints]
+sepolia = "https://eth-sepolia.g.alchemy.com/v2/GbPXnaoHBlpc_b3SLlgOYXdKKbuVsQIt"
