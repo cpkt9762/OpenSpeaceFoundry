@@ -12,4 +12,23 @@ claimNFT() : 通过默克尔树验证白名单，并利用 permitPrePay 的授�
 ```bash
 forge clean&&forge test -vvvvv  --match-path test/AirdopMerkleNFTMarket/AirdopMerkleNFTMarket.t.sol --ffi
 ```
-  
+
+Merkel 树的构建
+```bash
+ test/AirdropMerkleNFTMarke/testmerklet.js 
+  /**
+      * // 白名单用户地址
+      *         const whitelist = [
+      *         '0x1111111111111111111111111111111111111111',
+      *         '0x2222222222222222222222222222222222222222',
+      *         '0x3333333333333333333333333333333333333333',
+      *         '0x4444444444444444444444444444444444444444'
+      *         ];
+      *
+      * Merkle Root: 0x8ea0e3a5b1bcc3d21d094be4a529068bb97ef23671d5a18bc24c5ae11cffdbf7
+      *     Proof for address: 0x1111111111111111111111111111111111111111 [
+      *     '0x2ab0a4443bbea3fbe4d0e1503d11ff1367842fb0c8b28a5c8550f27599a40751',
+      *     '0x0aafebc39b02f78812dd98aa2d43138e57bf2e2129476469fcffb7c1d572f346'
+      *     ]
+      */
+```
