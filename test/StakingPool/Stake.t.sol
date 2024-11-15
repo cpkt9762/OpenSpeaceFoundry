@@ -77,5 +77,17 @@ contract StakeTest is Test {
         assertEq(kkToken.balanceOf(alice), 100);
     }
 
+    /*
+     * 测试earned
+     */
+    function testEarned() public {
+        address alice = makeAddr("alice");
+        vm.deal(alice, 1 ether);
+        vm.prank(alice);
+        stakeContract.stake{value: 1 ether}();
+        vm.roll(block.number + 10);
+        assertEq(stakeContract.earned(alice), 100);
+    }
+
     receive() external payable {}
 }

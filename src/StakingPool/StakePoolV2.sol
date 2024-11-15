@@ -209,7 +209,7 @@ contract StakePoolV2 is Ownable {
      * @return 待领取的 KK Token 收益
      */
     function earned(address account) external view returns (uint256) {
-        return stakes[account].unclaimed;
+        return calculateReward(account);
     }
 
     /*

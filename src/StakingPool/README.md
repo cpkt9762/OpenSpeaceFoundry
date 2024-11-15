@@ -10,6 +10,7 @@
   ```bash
     forge test -vvvvv --match-path test/StakingPool/Stake.t.sol
     [PASS] testClaim() (gas: 272975) 
+    [PASS] testEarned() (gas: 115487)
     [PASS] testStake() (gas: 114171) 
     [PASS] testUnstake() (gas: 274324) 
     Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 752.64µs (447.74µs CPU time)
