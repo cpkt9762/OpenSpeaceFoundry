@@ -8,3 +8,4 @@ forge-std/=lib/forge-std/src/
 halmos-cheatcodes/=lib/openzeppelin-contracts-upgradeable/lib/halmos-cheatcodes/src/
 @src/=src/
 @chainlink/=lib/chainlink/
+@uniswapv2/=library/UniswapV2/

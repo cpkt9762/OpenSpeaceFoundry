@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 struct Permit {
     address owner;
@@ -10,7 +11,7 @@ struct Permit {
     uint256 deadline;
 }
 
-contract MyERC20Token is IERC20 {
+contract Erc20Token is IERC20, Ownable {
     string public name = "BaseERC20";
     string public symbol = "BERC20";
     uint8 public decimals = 18;
@@ -24,7 +25,7 @@ contract MyERC20Token is IERC20 {
     // event Transfer(address indexed from, address indexed to, uint256 value);
     // event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    constructor() {
+    constructor() Ownable(msg.sender) {
         balances[msg.sender] = totalSupply;
     }
 
@@ -68,15 +69,13 @@ contract MyERC20Token is IERC20 {
         return allowances[_owner][_spender];
     }
     //erc20 trasnferWithOutPermit
-    //实现离线签名 
-    function transferWithPermit(Permit calldata permit,uint8 v,bytes32 r,bytes32 s) public returns (bool success) {
+    //实现离线签名
+
+    function transferWithPermit(Permit calldata permit, uint8 v, bytes32 r, bytes32 s) public returns (bool success) {
         // 1. 验证签名
         // 2. 验证签名是否有效
         // 3. 验证签名是否过期
         // 4. 验证签名是否正确
-        // 5. 验证签名是否正确  
-        
-        
-        
+        // 5. 验证签名是否正确
     }
 }

@@ -1,5 +1,10 @@
 // 部署 Bank 合约并开源
-// forge script scripts/DeployAutoDeposit.s.sol:DeployAutoDepositScript --rpc-url $TESTNET_RPC_URL --broadcast --verify --etherscan-api-key $ETHERSCAN_API_KEY --private-key $USER_PRIVATE_KEY
+// forge script scripts/DeployAutoDeposit.s.sol:DeployAutoDepositScript \
+// --rpc-url $TESTNET_RPC_URL \
+// --broadcast \
+// --verify \
+// --etherscan-api-key $ETHERSCAN_API_KEY \
+// --private-key $USER_PRIVATE_KEY
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
