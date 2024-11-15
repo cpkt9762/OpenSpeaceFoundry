@@ -26,4 +26,8 @@
 
 ---test---
     forge test -v --match-path test/DEX/DexSwap.t.sol  
+    [PASS] testBuyETHWithRNT() (gas: 344407)
+    [PASS] testSellETHForRNT() (gas: 232710)
+    Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 5.01ms (3.82ms CPU time)
+    Ran 1 test suite in 51.34ms (5.01ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
 ---
