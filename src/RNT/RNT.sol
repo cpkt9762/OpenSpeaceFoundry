@@ -9,4 +9,8 @@ contract RNT is ERC20, ERC20Permit, Ownable {
     constructor() ERC20("Reward Token", "RNT") ERC20Permit("Reward Token") Ownable(msg.sender) {
         _mint(msg.sender, 1000000 * 10 ** decimals());
     }
+
+    function mint(address to, uint256 amount) external {
+        _mint(to, amount);
+    }
 }

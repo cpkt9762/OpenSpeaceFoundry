@@ -13,17 +13,15 @@ struct LockInfo {
     bool isBurned;
 }
 
-
 contract esRNT is ERC20, Ownable {
-   
     // 用户地址 => 锁仓信息
     mapping(address => LockInfo) private locksInfos;
-    IERC20 public rntToken;
+
     event Minted(address indexed _user, uint256 _amount, uint256 lockTime);
     event Burned(address indexed _user, uint256 _amount, uint256 unlockTime);
-    constructor(IERC20 _rntToken) ERC20("Escrowed Reward Token", "esRNT") Ownable(msg.sender){
-        rntToken = _rntToken;
-        _transferOwnership(msg.sender);  
+
+    constructor() ERC20("Escrowed Reward Token", "esRNT") Ownable(msg.sender) {
+        _transferOwnership(msg.sender);
     }
 
     //重写 transferFrom
@@ -43,9 +41,9 @@ contract esRNT is ERC20, Ownable {
             lockTime: block.timestamp,
             unlockTime: block.timestamp + 30 days,
             isBurned: false
-        }); 
+        });
 
-        emit Minted( to, amount, block.timestamp);
+        emit Minted(to, amount, block.timestamp);
     }
 
     /*
@@ -53,9 +51,9 @@ contract esRNT is ERC20, Ownable {
     */
     function burn(address user, uint256 amount) public {
         require(locksInfos[user].lockTime > 0, "No lock found");
-        LockInfo storage lock = locksInfos[user];  
-        _burn(user, lock.amount); 
-        lock.amount-=amount;
+        LockInfo storage lock = locksInfos[user];
+        _burn(user, lock.amount);
+        lock.amount -= amount;
         lock.unlockTime = block.timestamp;
         lock.isBurned = true;
         emit Burned(user, amount, block.timestamp);
@@ -64,7 +62,7 @@ contract esRNT is ERC20, Ownable {
     /*
     获取用户锁仓信息
     */
-    function getLocksByUser(address user) external view returns (LockInfo memory) { 
+    function getLocksByUser(address user) external view returns (LockInfo memory) {
         return locksInfos[user];
     }
 }
